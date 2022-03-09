@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useContext } from "react";
+import { Link, Outlet } from "react-router-dom";
+import AuthContext from "./uploadfiles/context/auth";
 function App() {
+  const { rToken, setRToken } = useContext(AuthContext);
+  function cerrarSession() {
+    setRToken(null);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="dark:bg-gray-900 dark:text-white">
+      <nav>
+        <span className="text-5xl">Users App</span>
+        <ul>
+          <Link to="/products">Products</Link>
+          {rToken ? (
+            <button onClick={cerrarSession}>Cerrar Session</button>
+          ) : (
+            <button>
+              <Link to="/account">Iniciar Session</Link>
+            </button>
+          )}
+        </ul>
+      </nav>
+      <Outlet />
     </div>
   );
 }
